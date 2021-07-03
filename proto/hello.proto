@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package user.api;
+
+option go_package = "github.com/sbasestarter/grpc-production-demo.git/proto/gen;hellopb";
+
+//
+// HelloService
+//
+
+message HelloRequest {
+    string request = 1;
+}
+
+message HelloResponse {
+    string response = 2;
+}
+
+service Hellos {
+    rpc SayHello(HelloRequest) returns (HelloResponse) {}
+}
