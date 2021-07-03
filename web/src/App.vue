@@ -15,6 +15,9 @@ export default {
       return this.$i18n.t("test");
     },
     langSwitch() {
+      this.sayHello("test??").then(resp => {
+        console.log(resp)
+      })
       if (this.$i18n.locale === "zh_CN") {
         this.$i18n.locale = "en_US";
       } else {

@@ -10,3 +10,9 @@ protoc -I proto/ proto/hello.proto --go_out=plugins=grpc:${tempdir}
 mv -f ${tempdir}/github.com/sbasestarter/grpc-production-demo.git/proto/gen/* proto/gen/go/
 rm -rf ${tempdir}
 
+protoc \
+--plugin=protoc-gen-ts=./web/node_modules/.bin/protoc-gen-ts \
+--js_out=import_style=commonjs,binary:./proto/gen/js \
+--ts_out=service=grpc-web:./proto/gen/js \
+-I ./proto \
+proto/*.proto

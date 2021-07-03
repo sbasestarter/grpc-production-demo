@@ -4,8 +4,10 @@ import router from "./router";
 import store from "./store";
 import "./plugins/element.js";
 import i18n from "./tools/i18n";
+import apis from "./api/api";
 
 Vue.config.productionTip = false;
+Vue.use(apis);
 
 new Vue({
   router,

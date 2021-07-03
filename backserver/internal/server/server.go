@@ -19,8 +19,9 @@ func (s *gRpcServer) SayHello(ctx context.Context, req *hellopb.HelloRequest) (*
 		return nil, status.Error(codes.InvalidArgument, "")
 	}
 
+	ret := fmt.Sprintf("%s-%d", req.GetRequest(), atomic.AddInt64(&s.idx, 1))
 	return &hellopb.HelloResponse{
-		Response: fmt.Sprintf("%s-%d", req.String(), atomic.AddInt64(&s.idx, 1)),
+		Response: ret,
 	}, nil
 }
 
