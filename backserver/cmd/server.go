@@ -18,7 +18,7 @@ func main() {
 	reflection.Register(gRpcServer)
 
 	go func() {
-		gRpcListen, err := net.Listen("tcp", ":8080")
+		gRpcListen, err := net.Listen("tcp", ":9080")
 		if err != nil {
 			log.Fatalln(err)
 		}
