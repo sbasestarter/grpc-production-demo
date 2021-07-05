@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"os"
 	"strings"
 	"sync/atomic"
 	"time"
@@ -14,7 +15,8 @@ import (
 )
 
 type gRpcServer struct {
-	idx int64
+	idx      int64
+	hostName string
 }
 
 func (s *gRpcServer) SayHello(ctx context.Context, req *hellopb.HelloRequest) (*hellopb.HelloResponse, error) {
@@ -22,7 +24,7 @@ func (s *gRpcServer) SayHello(ctx context.Context, req *hellopb.HelloRequest) (*
 		return nil, status.Error(codes.InvalidArgument, "")
 	}
 
-	ret := fmt.Sprintf("%s-%d", req.GetRequest(), atomic.AddInt64(&s.idx, 1))
+	ret := fmt.Sprintf("%s:%s-%d", s.hostName, req.GetRequest(), atomic.AddInt64(&s.idx, 1))
 	return &hellopb.HelloResponse{
 		Response: ret,
 	}, nil
@@ -38,7 +40,7 @@ func (s *gRpcServer) HelloStream(req *hellopb.HelloStreamRequest, stream hellopb
 	var idx int
 	for {
 		err = stream.Send(&hellopb.HelloStreamMessage{
-			Message: fmt.Sprintf("%s-%d", req.Auth, idx),
+			Message: fmt.Sprintf("%s:%s-%d", s.hostName, req.Auth, idx),
 		})
 		if err != nil {
 			break
@@ -51,5 +53,11 @@ func (s *gRpcServer) HelloStream(req *hellopb.HelloStreamRequest, stream hellopb
 }
 
 func NewGrpcServer() hellopb.HellosServer {
-	return &gRpcServer{}
+	host, err := os.Hostname()
+	if err != nil {
+		host = err.Error()
+	}
+	return &gRpcServer{
+		hostName: host,
+	}
 }
