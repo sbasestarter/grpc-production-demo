@@ -1,3 +1,4 @@
+/* eslint-disable */
 // package: user.api
 // file: hello.proto
 

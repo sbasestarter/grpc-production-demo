@@ -12,7 +12,9 @@ rm -rf ${tempdir}
 
 protoc \
 --plugin=protoc-gen-ts=./web/node_modules/.bin/protoc-gen-ts \
---js_out=import_style=commonjs,binary:./proto/gen/js \
---ts_out=service=grpc-web:./proto/gen/js \
+--js_out=import_style=commonjs,binary:./web/js \
+--ts_out=service=grpc-web:./web/js \
 -I ./proto \
 proto/*.proto
+find web/js -name "*.js" -exec sed -i '' -e '1i \
+/* eslint-disable */' {} \;
