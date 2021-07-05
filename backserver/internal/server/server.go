@@ -3,7 +3,10 @@ package server
 import (
 	"context"
 	"fmt"
+	"log"
+	"strings"
 	"sync/atomic"
+	"time"
 
 	"github.com/sbasestarter/grpc-production-demo/proto/gen/go"
 	"google.golang.org/grpc/codes"
@@ -23,6 +26,28 @@ func (s *gRpcServer) SayHello(ctx context.Context, req *hellopb.HelloRequest) (*
 	return &hellopb.HelloResponse{
 		Response: ret,
 	}, nil
+}
+
+func (s *gRpcServer) HelloStream(req *hellopb.HelloStreamRequest, stream hellopb.Hellos_HelloStreamServer) error {
+	log.Println("HelloStream enter")
+	if req == nil || !strings.HasPrefix(req.Auth, "123") {
+		log.Println("HelloStream leave: no auth")
+		return status.Error(codes.Unauthenticated, "need auth,兄弟")
+	}
+	var err error
+	var idx int
+	for {
+		err = stream.Send(&hellopb.HelloStreamMessage{
+			Message: fmt.Sprintf("%s-%d", req.Auth, idx),
+		})
+		if err != nil {
+			break
+		}
+		idx++
+		time.Sleep(time.Second)
+	}
+	log.Println("HelloStream leave:", err)
+	return err
 }
 
 func NewGrpcServer() hellopb.HellosServer {

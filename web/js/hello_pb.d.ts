@@ -43,3 +43,43 @@ export namespace HelloResponse {
   }
 }
 
+export class HelloStreamRequest extends jspb.Message {
+  getAuth(): string;
+  setAuth(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): HelloStreamRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: HelloStreamRequest): HelloStreamRequest.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: HelloStreamRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): HelloStreamRequest;
+  static deserializeBinaryFromReader(message: HelloStreamRequest, reader: jspb.BinaryReader): HelloStreamRequest;
+}
+
+export namespace HelloStreamRequest {
+  export type AsObject = {
+    auth: string,
+  }
+}
+
+export class HelloStreamMessage extends jspb.Message {
+  getMessage(): string;
+  setMessage(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): HelloStreamMessage.AsObject;
+  static toObject(includeInstance: boolean, msg: HelloStreamMessage): HelloStreamMessage.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: HelloStreamMessage, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): HelloStreamMessage;
+  static deserializeBinaryFromReader(message: HelloStreamMessage, reader: jspb.BinaryReader): HelloStreamMessage;
+}
+
+export namespace HelloStreamMessage {
+  export type AsObject = {
+    message: string,
+  }
+}
+

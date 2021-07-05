@@ -16,6 +16,15 @@ message HelloResponse {
     string response = 2;
 }
 
+message HelloStreamRequest {
+    string auth = 1;
+}
+
+message HelloStreamMessage {
+    string message = 2;
+}
+
 service Hellos {
     rpc SayHello(HelloRequest) returns (HelloResponse) {}
+    rpc HelloStream(HelloStreamRequest) returns (stream HelloStreamMessage) {}
 }

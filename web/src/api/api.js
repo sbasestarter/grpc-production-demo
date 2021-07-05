@@ -1,5 +1,5 @@
 import { HellosClient } from "../../js/hello_pb_service.js";
-import { HelloRequest } from "../../js/hello_pb.js";
+import { HelloRequest, HelloStreamRequest } from "../../js/hello_pb.js";
 
 export default {
   install(Vue) {
@@ -27,6 +27,11 @@ export default {
           reject(err);
         }
       });
+    };
+    Vue.prototype.helloStream = function (auth) {
+      const req = new HelloStreamRequest();
+      req.setAuth(auth);
+      return Vue.prototype.client.helloStream(req, {});
     };
   },
 };

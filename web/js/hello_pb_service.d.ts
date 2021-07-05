@@ -13,9 +13,19 @@ type HellosSayHello = {
   readonly responseType: typeof hello_pb.HelloResponse;
 };
 
+type HellosHelloStream = {
+  readonly methodName: string;
+  readonly service: typeof Hellos;
+  readonly requestStream: false;
+  readonly responseStream: true;
+  readonly requestType: typeof hello_pb.HelloStreamRequest;
+  readonly responseType: typeof hello_pb.HelloStreamMessage;
+};
+
 export class Hellos {
   static readonly serviceName: string;
   static readonly SayHello: HellosSayHello;
+  static readonly HelloStream: HellosHelloStream;
 }
 
 export type ServiceError = { message: string, code: number; metadata: grpc.Metadata }
@@ -59,5 +69,6 @@ export class HellosClient {
     requestMessage: hello_pb.HelloRequest,
     callback: (error: ServiceError|null, responseMessage: hello_pb.HelloResponse|null) => void
   ): UnaryResponse;
+  helloStream(requestMessage: hello_pb.HelloStreamRequest, metadata?: grpc.Metadata): ResponseStream<hello_pb.HelloStreamMessage>;
 }
 
