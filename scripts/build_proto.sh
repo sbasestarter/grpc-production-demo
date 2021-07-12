@@ -18,3 +18,4 @@ protoc \
 proto/*.proto
 find web/js -name "*.js" -exec sed -i '' -e '1i \
 /* eslint-disable */' {} \;
+
