@@ -5,3 +5,9 @@
 * [grpcui](https://github.com/fullstorydev/grpcui)
     * `grpcui -plaintext 127.0.0.1:9080`
 
+
+```bash
+minikube tunnel
+
+minikube service demo-web
+```
