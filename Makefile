@@ -1,21 +1,5 @@
 TAG=$(shell git rev-parse --short HEAD)
 
-daemon:
-	# start our program as a background process (daemon).
-	nohup go run app/demo.go &
-
-# 启动 server
-run:
-	go run app/demo.go
-
-testing:
-	go test -v -count 1 ./...
-	golangci-lint run -v
-	kube-linter lint k8s-deployment.yml
-
-build:
-	CGO_ENABLED=0 GOOS=linux go build -o Niffler -v -ldflags "-w" app/demo.go
-
 docker-build-bs:
 	docker build --build-arg GITHUB_ACCESS_TOKEN="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" -t local/backserver -f backserver/Dockerfile  .
 
