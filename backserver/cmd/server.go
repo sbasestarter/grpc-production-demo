@@ -8,12 +8,28 @@ import (
 	"github.com/sbasestarter/grpc-production-demo/backserver/internal/handlers"
 	"github.com/sbasestarter/grpc-production-demo/backserver/internal/server"
 	"github.com/sbasestarter/grpc-production-demo/proto/gen/go"
+	"go.opencensus.io/examples/exporter"
+	"go.opencensus.io/plugin/ocgrpc"
+	"go.opencensus.io/stats/view"
+	"go.opencensus.io/zpages"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
 
 func main() {
-	gRpcServer := grpc.NewServer()
+	go func() {
+		// /debug/rpcz /debug/tracez
+		mux := http.NewServeMux()
+		zpages.Handle(mux, "/debug")
+		log.Fatal(http.ListenAndServe("127.0.0.1:8089", mux))
+	}()
+
+	view.RegisterExporter(&exporter.PrintExporter{})
+	if err := view.Register(ocgrpc.DefaultServerViews...); err != nil {
+		log.Fatal(err)
+	}
+
+	gRpcServer := grpc.NewServer(grpc.StatsHandler(&ocgrpc.ServerHandler{}))
 	hellopb.RegisterHellosServer(gRpcServer, server.NewGrpcServer())
 	reflection.Register(gRpcServer)
 
@@ -30,7 +46,7 @@ func main() {
 		}
 	}()
 
-	gRpcWebListen, err := net.Listen("tcp", ":8081")
+	gRpcWebListen, err := net.Listen("tcp", ":8082")
 	if err != nil {
 		log.Fatalln(err)
 	}

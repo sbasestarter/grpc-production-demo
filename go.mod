@@ -7,6 +7,7 @@ require (
 	github.com/improbable-eng/grpc-web v0.14.0
 	github.com/mwitkow/go-conntrack v0.0.0-20190716064945-2f068394615f // indirect
 	github.com/rs/cors v1.8.0 // indirect
+	go.opencensus.io v0.23.0
 	google.golang.org/grpc v1.39.0
 	google.golang.org/protobuf v1.27.1
 	nhooyr.io/websocket v1.8.7 // indirect
